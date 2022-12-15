@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: blue
+  namespace: {{ .Values.namespace }}
+data:
+  BG_COLOR: "#87CEFA"

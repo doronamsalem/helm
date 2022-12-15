@@ -1,0 +1,13 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: {{ .Values.PV.storage_class_name }}
+  labels:
+    app: {{ .Values.label }}
+provisioner: {{ .Values.PV.provider }}
+parameters:
+  type: {{ .Values.PV.volume_type }}
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate

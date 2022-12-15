@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: yellow
+  namespace: {{ .Values.namespace }}
+data:
+  BG_COLOR: "#FAFAD2"

@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployName }}
+  namespace: {{ .Values.namespace}}
+  labels:
+    app: {{ .Values.label }}
+
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.label }}
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.label }}
+
+    spec:
+#      volumes:
+ #     - name: {{ .Values.PV.name }}
+  #      persistentVolumeClaim: {{ .Values.PV.storage_class_name }}
+   #       claimName: {{ .Values.PV.pvc_name }}
+      containers:
+        - name: {{ .Values.containers.name }}
+          image: "{{ .Values.containers.image.repository }}:{{ .Values.containers.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.containers.image.pullPolicy }}
+          ports:
+          - containerPort: {{ .Values.containers.ports.weatherapp }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.configMap}}
+#          volumeMounts:
+ #         - name: {{ .Values.PV.name }}
+  #          mountPath: /test
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name}}
+  namespace: {{ .Values.namespace}}
+spec:
+  type: {{ .Values.service.type}}
+  selector:
+    app: {{ .Values.label}}
+  ports:
+  - protocol: TCP
+    port: {{ .Values.service.inbound_port}}
+    targetPort: {{ .Values.containers.ports.weatherapp }}

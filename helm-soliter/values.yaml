@@ -1,0 +1,22 @@
+# Default values for namespace
+namespace: wa
+
+# Default values for deployment
+deployName: soliter-app
+replicaCount: 2
+label: soliter
+
+containers:
+  name: soliter-server
+  image:
+    repository: chimenesjr/solitaire
+    pullPolicy: Always
+    tag: nginx
+  ports:
+    soliter: 80
+
+# Default values for service
+service:
+  name: soliter-svc
+  type: ClusterIP
+  inbound_port: 8080

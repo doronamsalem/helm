@@ -1,0 +1,8 @@
+services:
+  web:
+    build: .
+    container_name: aws_proj_server1
+    image: server1_weather_site_image
+    restart: unless-stopped
+    ports:
+      - "80:8081"

@@ -1,0 +1,47 @@
+# Default values for namespace
+namespace: wa
+
+# Default values for deployment
+deployName: weather-app
+replicaCount: 2
+label: weather
+
+containers:
+  name: app-server
+  image:
+    repository: doronamsalem/website
+    pullPolicy: Always
+    tag: "webserver"
+  ports:
+    weatherapp: 8081
+
+configMap: yellow
+
+# Default values for PV
+PV:
+  name: searched-history
+  provider: kubernetes.io/aws-ebs
+  pvc_name: aws-ebs
+  size: 8Gi
+  pvc_mode: ReadWriteMany
+  volume_type: sc1
+  storage_class_name: aws-ebs
+
+# Default values for service
+service:
+  name: weatherapp-svc
+  type: ClusterIP
+  inbound_port: 8080
+
+# Default values for ingress
+ingress:
+  name: ingress
+  weatherapp:
+    entery_path: /weatherapp
+    port: 8081
+    pathType: Exact
+  soliter:
+    entery_path: /soliter
+    port: 80
+    service: soliter-svc
+    pathType: Exact

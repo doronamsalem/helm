@@ -2,12 +2,15 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: {{ .Values.PV.storage_class_name }}
-  labels:
-    app: {{ .Values.label }}
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
 provisioner: {{ .Values.PV.provider }}
 parameters:
   type: {{ .Values.PV.volume_type }}
+  fsType: ext4
 allowVolumeExpansion: true
 mountOptions:
   - debug
 volumeBindingMode: Immediate
+
+
